@@ -23,18 +23,27 @@
   --ok:#1c7a4c; --ok-soft:#e2f3ea; --ng:#b2352e; --ng-soft:#fae6e4; --warn:#8a5a00;
   --font-body:"BIZ UDPGothic","Yu Gothic UI","Hiragino Sans","Meiryo",system-ui,sans-serif;
   --font-num:"BIZ UDGothic","Consolas","Menlo",monospace;
+  --hero-a:#2b7a57; --hero-b:#17503a; --hero-c:#3d9168; --hero-fg:#ffffff; --hero-sub:#d3eadc;
+  --shadow:0 1px 2px rgba(20,48,34,.06),0 3px 10px rgba(20,48,34,.06);
+  --shadow-hover:0 2px 4px rgba(20,48,34,.08),0 8px 22px rgba(20,48,34,.12);
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#101814; --surface:#18221d; --fg:#e3ece6; --muted:#97a89e; --line:#2c3b33;
   --accent:#6cc39a; --accent-soft:#1b3428; --accent-fg:#0b1a12;
-  --ok:#5cc58f; --ok-soft:#173226; --ng:#ee7f76; --ng-soft:#3a1d1b; --warn:#e0b050; color-scheme:dark}}
+  --ok:#5cc58f; --ok-soft:#173226; --ng:#ee7f76; --ng-soft:#3a1d1b; --warn:#e0b050; color-scheme:dark;
+  --hero-a:#1d4d38; --hero-b:#0f2a1f; --hero-c:#2a6448; --hero-sub:#b7d3c3;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 3px 10px rgba(0,0,0,.25);
+  --shadow-hover:0 2px 4px rgba(0,0,0,.35),0 8px 22px rgba(0,0,0,.35)}}
 :root[data-theme="dark"]{
   --bg:#101814; --surface:#18221d; --fg:#e3ece6; --muted:#97a89e; --line:#2c3b33;
   --accent:#6cc39a; --accent-soft:#1b3428; --accent-fg:#0b1a12;
-  --ok:#5cc58f; --ok-soft:#173226; --ng:#ee7f76; --ng-soft:#3a1d1b; --warn:#e0b050; color-scheme:dark}
+  --ok:#5cc58f; --ok-soft:#173226; --ng:#ee7f76; --ng-soft:#3a1d1b; --warn:#e0b050; color-scheme:dark;
+  --hero-a:#1d4d38; --hero-b:#0f2a1f; --hero-c:#2a6448; --hero-sub:#b7d3c3;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 3px 10px rgba(0,0,0,.25);
+  --shadow-hover:0 2px 4px rgba(0,0,0,.35),0 8px 22px rgba(0,0,0,.35)}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.75;margin:0}
-.wrap{max-width:780px;margin:0 auto;padding-inline:16px;padding-block:24px 64px}
+.wrap{max-width:780px;margin:0 auto;padding-inline:16px;padding-block:28px 64px}
 h1,h2,h3{text-wrap:balance;line-height:1.35;margin:0}
 h1{font-size:1.6rem;letter-spacing:.02em}
 h2{font-size:1.15rem}
@@ -44,20 +53,41 @@ h3{font-size:1rem}
 .label{font-size:.75rem;letter-spacing:.08em;color:var(--muted)}
 button{font:inherit;color:inherit;cursor:pointer}
 button:focus-visible,input:focus-visible,select:focus-visible,label:focus-within{outline:3px solid var(--accent);outline-offset:2px}
-.btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:10px 18px}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 18px;box-shadow:var(--shadow);transition:border-color .15s,box-shadow .15s,transform .15s}
 .btn:hover:not(:disabled){border-color:var(--accent)}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-fg);font-weight:700}
+.btn.primary{background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 88%,#fff),var(--accent));border-color:var(--accent);color:var(--accent-fg);font-weight:700}
 .btn:disabled{opacity:.45;cursor:default}
 .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn:hover:not(:disabled),.sec:hover:not(:disabled),.mode:hover:not(:disabled){box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.opt:hover:not(:disabled){box-shadow:var(--shadow-hover)}
+main h2{display:flex;align-items:center;gap:10px}
+main h2::before{content:"";flex:none;width:5px;height:1.15em;border-radius:3px;background:linear-gradient(var(--accent),color-mix(in srgb,var(--accent) 45%,#7a4a2a))}
 .stack{display:grid;gap:20px}
-.head{display:grid;gap:4px;padding-bottom:18px;border-bottom:2px solid var(--fg)}
-.head .meta{font-size:.85rem}
+/* ヘッダー: 緑の牧場に茶色の馬（影は黒）。馬は inline SVG（horse.py が描く） */
+.hero{position:relative;overflow:hidden;color:var(--hero-fg);
+  background:radial-gradient(120% 140% at 85% 110%,var(--hero-c) 0%,transparent 55%),linear-gradient(160deg,var(--hero-a),var(--hero-b));
+  box-shadow:inset 0 -1px 0 rgba(0,0,0,.25)}
+.hero::after{content:"";position:absolute;inset:auto 0 0 0;height:16px;pointer-events:none;
+  background:linear-gradient(to top,rgba(0,0,0,.18),transparent)}
+.hero-in{position:relative;max-width:780px;margin:0 auto;padding:30px 16px 26px;display:grid;grid-template-columns:1fr 230px;gap:12px;align-items:end;min-height:200px}
+.hero-text{display:grid;gap:8px;position:relative;z-index:1}
+.hero-label{font-size:.75rem;letter-spacing:.08em;color:var(--hero-sub)}
+.hero h1{font-size:2rem;letter-spacing:.06em;text-shadow:0 2px 6px rgba(0,0,0,.35)}
+.hero-meta{font-size:.85rem;color:var(--hero-sub);max-width:34em}
+.hero-art{align-self:end;margin-bottom:-12px}
+.hero-art svg{display:block;width:100%;height:auto;filter:drop-shadow(0 6px 10px rgba(0,0,0,.25))}
+@media (max-width:620px){
+  .hero-in{grid-template-columns:1fr;min-height:0;padding:22px 16px 20px}
+  .hero h1{font-size:1.55rem}
+  .hero-text{padding-right:96px}
+  .hero-art{position:absolute;right:6px;bottom:8px;width:118px;margin:0}
+}
 .note{font-size:.85rem;color:var(--muted);border-left:3px solid var(--line);padding-left:12px}
 
 /* ホーム: 本番形式の表 */
 .exam{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
 .exam .set{grid-column:1/-1;display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-top:6px}
-.sec{display:grid;gap:2px;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 12px;min-width:0}
+.sec{display:grid;gap:2px;text-align:left;border:1px solid var(--line);border-top:3px solid var(--accent);background:var(--surface);border-radius:12px;padding:10px 12px;min-width:0;box-shadow:var(--shadow);transition:border-color .15s,box-shadow .15s,transform .15s}
 .sec:hover:not(:disabled){border-color:var(--accent)}
 .sec:disabled{opacity:.45;cursor:default}
 .sec strong{font-size:1.05rem}
@@ -66,12 +96,12 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-within
 .pass{font-weight:700;font-size:.9rem;padding:2px 10px;border-radius:999px}
 .pass.ok{background:var(--ok-soft);color:var(--ok)} .pass.ng{background:var(--ng-soft);color:var(--ng)} .pass.na{color:var(--muted)}
 .modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
-.mode{display:grid;gap:4px;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:14px}
+.mode{display:grid;gap:4px;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:14px;box-shadow:var(--shadow);transition:border-color .15s,box-shadow .15s,transform .15s}
 .mode:hover:not(:disabled){border-color:var(--accent)}
 .mode strong{font-size:1.02rem}
 .mode .n{font-family:var(--font-num);font-size:1.4rem;color:var(--accent)}
 .mode:disabled{opacity:.5;cursor:default}
-details.grp{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:6px 10px}
+details.grp{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:6px 12px;box-shadow:var(--shadow)}
 details.grp summary{cursor:pointer;padding:6px 2px;display:flex;gap:10px;align-items:center;list-style:none}
 details.grp summary::-webkit-details-marker{display:none}
 details.grp summary::before{content:"▸";color:var(--muted)}
@@ -101,7 +131,7 @@ details.grp[open] summary::before{content:"▾"}
 .trendpick{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:.9rem}
 .trendpick select{font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 10px;max-width:100%}
 .trendsrc{margin:0;font-size:.85rem}
-.case{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;padding:12px 14px;display:grid;gap:10px}
+.case{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;box-shadow:var(--shadow);padding:12px 14px;display:grid;gap:10px}
 .case p{margin:0;white-space:pre-wrap}
 .qtext{font-size:1.08rem;font-weight:700;line-height:1.8;margin:0;white-space:pre-wrap}
 figure.img{margin:0;display:grid;gap:4px;justify-items:start}
@@ -112,7 +142,7 @@ ol.stmts li{display:grid;grid-template-columns:28px 1fr;gap:8px}
 ol.stmts li b{font-family:var(--font-num)}
 .opts{display:grid;gap:10px}
 .opts.pairs{grid-template-columns:repeat(5,1fr)}
-.opt{display:grid;grid-template-columns:32px 1fr;gap:12px;align-items:start;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:12px 14px}
+.opt{display:grid;grid-template-columns:32px 1fr;gap:12px;align-items:start;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow);transition:border-color .15s,box-shadow .15s}
 .opts.pairs .opt{grid-template-columns:1fr;justify-items:center;text-align:center;gap:4px;padding:10px 4px}
 .opt:hover:not(:disabled){border-color:var(--accent)}
 .opt .k{font-family:var(--font-num);display:grid;place-items:center;width:28px;height:28px;border-radius:6px;border:1px solid var(--line);font-size:.9rem}
@@ -126,12 +156,12 @@ ol.stmts li b{font-family:var(--font-num)}
 .opt.wrong .k{background:var(--ng);border-color:var(--ng);color:var(--surface)}
 .verdict{font-weight:700;font-size:1.05rem}
 .verdict.ok{color:var(--ok)} .verdict.ng{color:var(--ng)}
-.exp{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:6px}
+.exp{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:6px;box-shadow:var(--shadow)}
 .pace{font-size:.9rem}
 .pace.slow{color:var(--ng);font-weight:700}
 .keys{font-size:.8rem;color:var(--muted)}
 .palette{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:4px}
-.palette button{font-family:var(--font-num);font-size:.8rem;padding:4px 0;border:1px solid var(--line);background:var(--surface);border-radius:4px}
+.palette button{font-family:var(--font-num);font-size:.8rem;padding:4px 0;border:1px solid var(--line);background:var(--surface);border-radius:6px}
 .palette button.done{background:var(--accent-soft);border-color:var(--accent)}
 .palette button.cur{outline:2px solid var(--fg)}
 
@@ -158,13 +188,18 @@ td.r,th.r{text-align:right}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
+<header class="hero">
+  <div class="hero-in">
+    <div class="hero-text">
+      <div class="hero-label">獣医師国家試験 ／ 新出題基準（第78回〜）・2026年9月時点の制度</div>
+      <h1>獣医国試 演習問題集</h1>
+      <div class="hero-meta">本番<span class="num" id="nsets"></span>回分（必須50・A80・B80・C60・D60 ×<span class="num" id="nsets2"></span>）＋近年の傾向別の特訓セット、全<span class="num" id="total"></span>問。全問5択。成績はこの端末のブラウザに保存されます。</div>
+    </div>
+    <div class="hero-art" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 345"><defs><filter id="hs" x="-10%" y="-10%" width="130%" height="130%"><feDropShadow dx="6" dy="5" stdDeviation="3" flood-color="#000" flood-opacity=".55"/></filter><filter id="hg" x="-20%" y="-300%" width="140%" height="700%"><feGaussianBlur stdDeviation="4"/></filter></defs><ellipse cx="236" cy="333" rx="128" ry="7" fill="#000" opacity=".45" filter="url(#hg)"/><g filter="url(#hs)"><path d="M150,198C153.0,196.0 167.3,199.7 172,204C176.7,208.3 175.3,217.0 178,224C180.7,231.0 186.7,239.7 188,246C189.3,252.3 188.0,257.0 186,262C184.0,267.0 177.2,271.0 176,276C174.8,281.0 180.8,289.0 179,292C177.2,295.0 167.7,296.0 165,294C162.3,292.0 162.5,285.0 163,280C163.5,275.0 166.8,268.3 168,264C169.2,259.7 171.0,259.0 170,254C169.0,249.0 164.7,240.3 162,234C159.3,227.7 156.0,222.0 154,216C152.0,210.0 147.0,200.0 150,198Z" fill="#5e3820"/><path d="M268,204C271.3,201.7 286.0,206.0 292,210C298.0,214.0 300.0,221.0 304,228C308.0,235.0 312.3,243.7 316,252C319.7,260.3 323.0,269.3 326,278C329.0,286.7 331.7,296.3 334,304C336.3,311.7 338.5,319.3 340,324C341.5,328.7 345.2,330.5 343,332C340.8,333.5 330.2,334.7 327,333C323.8,331.3 325.7,327.2 324,322C322.3,316.8 319.8,309.0 317,302C314.2,295.0 310.7,287.0 307,280C303.3,273.0 299.0,266.3 295,260C291.0,253.7 286.8,248.0 283,242C279.2,236.0 274.5,230.3 272,224C269.5,217.7 264.7,206.3 268,204Z" fill="#5e3820"/><path d="M36,120C36.5,116.5 37.3,113.3 40,108C42.7,102.7 47.7,94.7 52,88C56.3,81.3 61.7,74.0 66,68C70.3,62.0 75.0,57.7 78,52C81.0,46.3 82.7,39.3 84,34C85.3,28.7 84.7,20.7 86,20C87.3,19.3 90.2,29.3 92,30C93.8,30.7 95.7,22.3 97,24C98.3,25.7 97.8,35.3 100,40C102.2,44.7 105.7,47.3 110,52C114.3,56.7 120.7,62.0 126,68C131.3,74.0 137.0,81.7 142,88C147.0,94.3 151.3,101.0 156,106C160.7,111.0 162.7,114.7 170,118C177.3,121.3 189.7,124.3 200,126C210.3,127.7 221.7,128.7 232,128C242.3,127.3 252.3,124.0 262,122C271.7,120.0 282.3,116.0 290,116C297.7,116.0 303.3,119.3 308,122C312.7,124.7 313.7,127.3 318,132C322.3,136.7 329.3,141.0 334,150C338.7,159.0 343.7,174.0 346,186C348.3,198.0 348.7,211.0 348,222C347.3,233.0 344.0,245.3 342,252C340.0,258.7 338.0,264.0 336,262C334.0,260.0 331.0,249.3 330,240C329.0,230.7 330.7,217.0 330,206C329.3,195.0 328.0,182.7 326,174C324.0,165.3 319.7,155.3 318,154C316.3,152.7 316.8,160.3 316,166C315.2,171.7 314.7,181.0 313,188C311.3,195.0 308.3,201.3 306,208C303.7,214.7 299.2,221.3 299,228C298.8,234.7 304.8,242.0 305,248C305.2,254.0 301.0,255.7 300,264C299.0,272.3 298.8,289.7 299,298C299.2,306.3 300.2,308.7 301,314C301.8,319.3 306.3,327.3 304,330C301.7,332.7 290.0,332.7 287,330C284.0,327.3 286.2,319.7 286,314C285.8,308.3 286.0,304.3 286,296C286.0,287.7 286.7,271.7 286,264C285.3,256.3 283.5,255.7 282,250C280.5,244.3 279.0,236.0 277,230C275.0,224.0 275.5,217.0 270,214C264.5,211.0 254.3,212.0 244,212C233.7,212.0 218.7,214.3 208,214C197.3,213.7 186.0,208.7 180,210C174.0,211.3 173.8,216.3 172,222C170.2,227.7 169.7,236.7 169,244C168.3,251.3 168.5,257.0 168,266C167.5,275.0 166.0,290.0 166,298C166.0,306.0 167.3,308.7 168,314C168.7,319.3 172.5,327.3 170,330C167.5,332.7 156.0,332.7 153,330C150.0,327.3 152.2,319.7 152,314C151.8,308.3 152.2,304.0 152,296C151.8,288.0 151.7,274.7 151,266C150.3,257.3 149.3,251.3 148,244C146.7,236.7 145.3,229.7 143,222C140.7,214.3 137.2,205.3 134,198C130.8,190.7 126.8,185.7 124,178C121.2,170.3 119.7,160.7 117,152C114.3,143.3 110.5,133.7 108,126C105.5,118.3 104.7,109.3 102,106C99.3,102.7 96.0,103.7 92,106C88.0,108.3 83.3,115.3 78,120C72.7,124.7 65.3,131.7 60,134C54.7,136.3 49.8,134.8 46,134C42.2,133.2 38.7,131.3 37,129C35.3,126.7 35.5,123.5 36,120Z" fill="#7a4a2a"/></g></svg></div>
+  </div>
+</header>
 <div class="wrap">
-  <header class="head">
-    <div class="label">獣医師国家試験 ／ 令和7年度改正の出題基準（第78回〜）・2026年9月時点の制度で作成</div>
-    <h1>獣医国試 演習問題集</h1>
-    <div class="meta muted">本番<span class="num" id="nsets"></span>回分（必須50・A80・B80・C60・D60 ×<span class="num" id="nsets2"></span>）＋近年の傾向別の特訓セット、全<span class="num" id="total"></span>問。全問5択。成績はこのPCのブラウザに保存されます。</div>
-  </header>
-  <main id="app" class="stack" style="margin-top:24px"></main>
+  <main id="app" class="stack"></main>
   <p class="note" style="margin-top:32px">練習用に独自に作成した問題で、公式の問題ではありません。内容はWebで確認して作成していますが、誤りが残っている可能性があります。
   画像はすべてプログラムで描いた疑似画像（模式図）で、実際の写真の読影練習にはなりません。</p>
 </div>

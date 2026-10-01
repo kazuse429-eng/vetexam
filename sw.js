@@ -1,6 +1,6 @@
 // オフライン用: 初回に全ファイルを保存し、以後は保存分を表示する。
 // 版(VERSION)は build.py が中身のハッシュで埋める。新しい版を公開すると、次に開いたとき裏で入れ替わる。
-const VERSION = "c5b838b786e5";
+const VERSION = "50d8b1b51373";
 const CACHE = "vetexam-" + VERSION;
 const FILES = ["./", "index.html", "manifest.webmanifest", "icon-180.png", "icon-192.png", "icon-512.png"];
 
