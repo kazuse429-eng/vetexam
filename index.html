@@ -713,6 +713,6 @@ document.getElementById("total").textContent = QUESTIONS.length;
 document.getElementById("nsets").textContent = document.getElementById("nsets2").textContent = EXAM_SETS.length;
 renderHome();
 </script>
-<script>if('serviceWorker' in navigator && location.protocol.startsWith('http')){navigator.serviceWorker.register('sw.js').catch(function(){});}</script>
+<script>if('serviceWorker' in navigator && location.protocol.startsWith('http')){var hadSW=!!navigator.serviceWorker.controller,reloaded=false;navigator.serviceWorker.addEventListener('controllerchange',function(){if(hadSW&&!reloaded){reloaded=true;location.reload();}});navigator.serviceWorker.register('sw.js').catch(function(){});}</script>
 </body>
 </html>
